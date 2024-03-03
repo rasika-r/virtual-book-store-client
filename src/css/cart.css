@@ -1,0 +1,30 @@
+.top {
+    display: flex;
+    justify-content: center;
+    padding: 20px; 
+  }
+  
+  .cart1 {
+    background-color: rgb(243, 245, 247);
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 5px 10px, rgba(0, 0, 0, 0.23) 0px 3px 3px; /* Reduced box shadow */
+  }
+  
+  .cart-image {
+    border-radius: 10px;
+    width: 200px; 
+    height: auto;  }
+  
+  .name {
+    font-size: 18px;
+  }
+  
+  .rating {
+    margin-left: 50px; 
+    font-size: 18px; 
+  }
+  
+  .author {
+    font-size: 14px;
+  }
+  
