@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
+
 import pdf from './lung.pdf'
  
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
