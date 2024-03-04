@@ -3,7 +3,7 @@ import { Document, Page } from 'react-pdf';
 import PdfViewer from './components/PdfViewer';
 import Login from './components/auth/login'
 import { Outlet } from 'react-router-dom';
-import Cart from './components/cart';
+import Home from './Home';
 
 const App = () => {
 	return (
@@ -11,7 +11,6 @@ const App = () => {
 			{/*<Login></Login>
 			<PdfViewer></PdfViewer>*/}
 			<Outlet/>
-			<Cart></Cart>
 		</>
 		
 	);
