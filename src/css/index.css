@@ -5,3 +5,6 @@ p{
 p:hover{
     cursor: pointer;
 }
+.cartitem{
+    background-color: antiquewhite;
+}

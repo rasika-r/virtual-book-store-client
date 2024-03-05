@@ -38,7 +38,10 @@ const PdfViewer = () => {
 				file={pdf}
 				onLoadSuccess={onDocumentLoadSuccess}
 			>
-				<Page pageNumber={pageNumber} />
+				<Page pageNumber={pageNumber} 
+				renderTextLayer={false} // Disable rendering text layer
+				renderInteractiveForms={false} // Disable rendering interactive forms
+				renderAnnotationLayer={false} />
 			</Document>
 		</div>
 	);

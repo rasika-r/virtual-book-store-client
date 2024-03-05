@@ -4,13 +4,16 @@ import PdfViewer from './components/PdfViewer';
 import Login from './components/auth/login'
 import { Outlet } from 'react-router-dom';
 import Home from './Home';
+import Progress from './components/progress';
+import ProgressCart from './components/progressCart';
 
 const App = () => {
 	return (
 		<>
-			{/*<Login></Login>
-			<PdfViewer></PdfViewer>*/}
-			<Outlet/>
+	
+			{/* <PdfViewer></PdfViewer>
+			<Outlet/> */}
+			<ProgressCart></ProgressCart>
 		</>
 		
 	);
