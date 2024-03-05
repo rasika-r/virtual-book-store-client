@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Box, Container, Grid, Paper, Divider, List, ListItem, ListItemText, Avatar, ListItemAvatar} from '@mui/material';
 import { Book, Group, AttachMoney, Star } from '@mui/icons-material';
 import Header from './Header';
+import axios from 'axios';
 
 const Main = () => {
+    const [bookCount,setBookCount] = useState(0);
+    const [rentCount,setRentCount] = useState(0);
+    const [purchaseCount,setPurchaseCount] = useState(0);
+
+    useEffect(() => {
+        axios.get(`http://localhost:8000/books`).then((response) => {
+            setBookCount(response.data.res.length);
+        })
+
+        axios.get(`http://localhost:8000/transactions`).then((response) => {
+            const transactions = response.data.res;
+            const rentedBooks = transactions.filter(transaction => transaction.purchase_type === 'rented')
+            setRentCount(rentedBooks.length);
+
+            const purchasedBooks = transactions.filter(transaction => transaction.purchase_type === 'purchase')
+            setPurchaseCount(purchasedBooks.length);
+        })
+    },[bookCount,rentCount,purchaseCount])
+
     return (
         <div>
             <Header/>
@@ -14,7 +34,7 @@ const Main = () => {
                             <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
                                 <Book fontSize='large' />
                                 <Typography variant="h6" fontFamily="Poppins">Total Books</Typography>
-                                <Typography variant="h4" fontFamily="Poppins">0</Typography>
+                                <Typography variant="h4" fontFamily="Poppins">{bookCount}</Typography>
                             </Box>
                         </Paper>
                     </Grid>
@@ -31,8 +51,8 @@ const Main = () => {
                         <Paper sx={{ textAlign: 'center', padding: '20px', backgroundColor: '#15F5BA', color: '#000' }}>
                             <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
                                 <AttachMoney fontSize='large' />
-                                <Typography variant="h6" fontFamily="Poppins">Books Purchased</Typography>
-                                <Typography variant="h4" fontFamily="Poppins">0</Typography>
+                                <Typography variant="h6" fontFamily="Poppins">Books Bought</Typography>
+                                <Typography variant="h4" fontFamily="Poppins">{purchaseCount}</Typography>
                             </Box>
                         </Paper>
                     </Grid>
@@ -41,7 +61,7 @@ const Main = () => {
                             <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
                                 <Star fontSize='large' />
                                 <Typography variant="h6" fontFamily="Poppins">Books Rented</Typography>
-                                <Typography variant="h4" fontFamily="Poppins">0</Typography>
+                                <Typography variant="h4" fontFamily="Poppins">{rentCount}</Typography>
                             </Box>
                         </Paper>
                     </Grid>

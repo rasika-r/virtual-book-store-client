@@ -65,11 +65,17 @@ const UpdateBook = () => {
             <Grid container spacing={1} sx={{ display: 'flex', flexDirection: 'column' }}>
                 <UpdateBookModal open={open} handleClose={handleClose} selectedBook={selectedBook} />
                 {filteredBooks.map((book, index) => (
-                    <Grid item xs={12} md={6} lg={4} key={index}>
+                    <Grid key={index}>
                         <Card sx={{ boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)', width: '100vw' }}>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-evenly', ':hover': { backgroundColor: '#F0F3FF' } }}>
-                                <Box sx={{ width: '50px', height: '50px', overflow: 'hidden', borderRadius: '5px', boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)', backgroundImage: `url(${book.img})`, backgroundSize: 'cover' }}>
-                                </Box>
+                                
+                                    <CardContent sx={{ display: 'flex', justifyContent: 'space-evenly', ':hover': { backgroundColor: '#F0F3FF' } }}>
+                            
+                                <Grid md={3}>
+                                    <Box sx={{ width: '50px', height: '50px', overflow: 'hidden', borderRadius: '5px', boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)', backgroundImage: `url(${book.img})`, backgroundSize: 'cover' }}>
+                                    </Box>
+                                </Grid>
+                                <Grid md={3}>
+
                                 <Box sx={{display:'flex', flexDirection:'column'}}>
                                     <Typography variant="body2" color="textSecondary" fontFamily='Poppins' component="div">
                                         Book Name
@@ -78,20 +84,28 @@ const UpdateBook = () => {
                                         {book.book_name}
                                     </Typography>
                                 </Box>
-                                <Box sx={{display:'flex', flexDirection:'column'}}>
-                                    <Typography variant="body2" color="textSecondary" fontFamily='Poppins' component="div">
-                                        Author Name
-                                    </Typography>
-                                    <Typography variant="" component="div" mt={1}>
-                                        {book.author_name}
-                                    </Typography>
-                                </Box>
-                                <Button variant="contained" color="secondary" startIcon={<Edit />} onClick={() => handleOpen(book.book_id)}>
-                                    Update
-                                </Button>
-                                <Button variant="contained" color="error" startIcon={<Delete />} onClick={() => handleDelete(book.book_id)}>
-                                    Delete
-                                </Button>
+                                </Grid>
+                                <Grid md={3}>
+
+                                    <Box sx={{display:'flex', flexDirection:'column'}}>
+                                        <Typography variant="body2" color="textSecondary" fontFamily='Poppins' component="div">
+                                            Author Name
+                                        </Typography>
+                                        <Typography variant="" component="div" mt={1}>
+                                            {book.author_name}
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                                <Grid md={3}>
+                                    <Button variant="contained" color="secondary" startIcon={<Edit />} onClick={() => handleOpen(book.book_id)}>
+                                        Update
+                                    </Button>
+                                </Grid>
+                                <Grid md={3}>
+                                    <Button variant="contained" color="error" startIcon={<Delete />} onClick={() => handleDelete(book.book_id)}>
+                                        Delete
+                                    </Button>
+                                </Grid>
                             </CardContent>
                         </Card>
                     </Grid>
