@@ -5,6 +5,9 @@ import SignUp from "../components/auth/signup";
 import Home from "../Home";
 import BookDetails from "../components/BookDetails";
 
+import CreateBook from "../components/admin/CreateBook";
+import UpdateBook from "../components/admin/UpdateBook";
+import Main from "../components/admin/main";
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +18,10 @@ export const router = createBrowserRouter([
         {path:'signup', element:<SignUp/>},
         {path: 'Home', element: <Home />},
         {path: 'bookdetails/', element: <BookDetails/>},
-        {path: 'bookdetails/:id', element: <BookDetails/>}
+        {path: 'bookdetails/:id', element: <BookDetails/>},
+        {path:'CreateBooks', element:<CreateBook/>},
+        {path:'UpdateBooks', element:<UpdateBook/>},
+        {path: 'admin', element: <Main/>}
       ]
   }
 ])
