@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import '../css/pdfviewer.css'
+import { useNavigate } from 'react-router-dom';
 
 
 import pdf from './lung.pdf'
@@ -17,6 +18,8 @@ const PdfViewer = () => {
 		setNumPages(numPages);
 	};
 
+	const navigate = useNavigate();
+
 	const goToPrevPage = () =>
 		setPageNumber(pageNumber - 1 <= 1 ? 1 : pageNumber - 1);
 
@@ -28,6 +31,7 @@ const PdfViewer = () => {
 	return (
 		<div className="pdf-view-wrapper">
 			<div className="pdf-container">
+				<div className='go-back-btn'> <button onClick={navigate('/home')}>Back</button></div>
 				<div className="page-btn">
 						<div><button onClick={goToPrevPage}>Prev</button></div>
 						<div><p>

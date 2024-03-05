@@ -1,5 +1,6 @@
 .home{
     background-color: #F0F3FF;
+    height: 100vh;
 }
 
 .home-wrapper{
@@ -8,3 +9,9 @@
     padding: 1rem;
 }
 
+.empty-message{
+    padding: 1.5rem;
+    background-color: white;
+    margin: 1rem auto;
+    text-align: center;
+}

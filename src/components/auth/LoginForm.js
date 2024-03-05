@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Typography, TextField, Button, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const LoginForm = () => {
     const [showOTPField, setShowOTPField] = useState(false);
     const [buttonLabel, setButtonLabel] = useState('Get OTP');
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
+    const emailRef = useRef()
+    const nameRef = useRef()
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data); 
+        try{
+        const response = await axios.post('http://localhost:8000/otp/verify', {email: data.email, otp: data.otp});
+        console.log(response.data);
+        const user_id = response.data.res.id;
+        const token = response.data.res.token;
+        
+        localStorage.setItem('token', token);
+        localStorage.setItem('id', user_id);
+        navigate('/home');
+        
+      } catch (error) {
+        console.error('Login failed:', error);
+      }
     };
 
     const handleGetOTP = () => {
+        const username = nameRef.current.value;
+        const email = emailRef.current.value;
+
+        axios.post('http://localhost:8000/auth/login', { user_name: username, email: email }).then(res=>console.log(res));
         setShowOTPField(true);
         setButtonLabel('Verify OTP');
     };
@@ -49,6 +70,7 @@ const LoginForm = () => {
                     })}
                     variant="outlined"
                     fullWidth
+                    inputRef={nameRef}
                     label="Username"
                     error={!!errors.username}
                     helperText={errors.username ? errors.username.message : ''}
@@ -56,28 +78,29 @@ const LoginForm = () => {
                 />
 
                 <TextField
-                    {...register('mobileNumber', {
-                        required: 'Mobile number is required',
+                    {...register('email', {
+                        required: 'Email is required',
                         pattern: {
-                            value: /^\d{10}$/,
-                            message: 'Invalid mobile number',
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: 'Invalid email address',
                         },
                     })}
                     variant="outlined"
                     fullWidth
-                    label="Mobile number"
-                    error={!!errors.mobileNumber}
-                    helperText={errors.mobileNumber ? errors.mobileNumber.message : ''}
+                    inputRef={emailRef}
+                    label="Email"
+                    error={!!errors.email}
+                    helperText={errors.email ? errors.email.message : ''}
                     sx={{ marginBottom: '20px' }}
-                />
+                />  
 
                 {showOTPField && (
                     <TextField
                         {...register('otp', {
                             required: 'Please enter OTP',
                             pattern: {
-                                value: /^\d{6}$/,
-                                message: 'OTP should be 6 digits',
+                                value: /^\d{4}$/,
+                                message: 'OTP should be 4 digits',
                             },
                         })}
                         variant="outlined"

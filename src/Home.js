@@ -5,7 +5,8 @@ import './css/home.css'
 import axios from "axios";
 
 import {useState, useEffect, useRef} from 'react'
-import PdfViewer from "./components/PdfViewer";
+// import PdfViewer from "./components/PdfViewer";
+import ProgressCart from "./components/progressCart";
 
 function Home() {
     const [allBooks, setAllBooks] = useState([])
@@ -97,18 +98,22 @@ function Home() {
 
                 <div className="rented-books" ref={section2Ref}>
                     <h3>Rented Books</h3>
-                    <Carousel breakPoints={breakPoints}>
-                        {rentedBooks.map(item => <Cart key={item.id} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.img}></Cart>)}
-                    </Carousel>
+                    {rentedBooks.length > 0 ? <div className="empty-message">  You have not rented any books</div> : <ProgressCart/>}
                 </div>
 
                 <div className="purchased-books" ref={section3Ref}>
                     <h3>Purchased Books</h3>
-                    <Carousel breakPoints={breakPoints}>
-                        {purchasedBooks.map(item => <Cart key={item.id} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.img}></Cart>)}
-                    </Carousel>
+                    { purchasedBooks.length > 0 ? '' : <div className="empty-message">You have not purchased any books</div>}
                 </div>
             </div>
+
+            {/* <Carousel breakPoints={breakPoints}>
+                        {rentedBooks.map(item => <Cart key={item.id} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.img}></Cart>)}
+                    </Carousel> */}
+
+            {/* <Carousel breakPoints={breakPoints}>
+                {purchasedBooks.map(item => <Cart key={item.id} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.img}></Cart>)}
+            </Carousel> */}
 
             {/* <PdfViewer/> */}
 

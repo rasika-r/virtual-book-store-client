@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Typography, TextField, Button, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
-
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignUpForm = () => {
     const [showOTPField, setShowOTPField] = useState(false);
     const [buttonLabel, setButtonLabel] = useState('Get OTP');
+    const emailRef = useRef()
+    const nameRef = useRef()
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post('http://localhost:8000/otp/verify/', {email: data.email, otp: data.otp });
+            console.log(response.data);
+            navigate('/home')
+        } catch (error) {
+            console.error('Sign up failed:', error);
+        }
         console.log(data);
     };
 
     const handleGetOTP = () => {
+        // console.log(emailRef.current.value, nameRef.current.value);
+        const username = nameRef.current.value;
+        const email = emailRef.current.value;
+
+        axios.post('http://localhost:8000/auth/signup', { user_name: username, email: email }).then(res=>console.log(res));
         setShowOTPField(true);
         setButtonLabel('Verify OTP');
     };
-
 
     return (
         <Box
@@ -45,17 +58,6 @@ const SignUpForm = () => {
             </Typography>
 
             <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
-                <TextField
-                    {...register('name', {
-                        required: 'Name is required',
-                    })}
-                    variant="outlined"
-                    fullWidth
-                    label="Name"
-                    error={!!errors.name}
-                    helperText={errors.name ? errors.name.message : ''}
-                    sx={{ marginBottom: '20px' }}
-                />
 
                 <TextField
                     {...register('username', {
@@ -63,6 +65,7 @@ const SignUpForm = () => {
                     })}
                     variant="outlined"
                     fullWidth
+                    inputRef={nameRef}
                     label="Username"
                     error={!!errors.username}
                     helperText={errors.username ? errors.username.message : ''}
@@ -70,18 +73,19 @@ const SignUpForm = () => {
                 />
 
                 <TextField
-                    {...register('mobileNumber', {
-                        required: 'Mobile number is required',
+                    {...register('email', {
+                        required: 'Email is required',
                         pattern: {
-                            value: /^\d{10}$/,
-                            message: 'Invalid mobile number',
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: 'Invalid email address',
                         },
                     })}
                     variant="outlined"
                     fullWidth
-                    label="Mobile number"
-                    error={!!errors.mobileNumber}
-                    helperText={errors.mobileNumber ? errors.mobileNumber.message : ''}
+                    inputRef={emailRef}
+                    label="Email"
+                    error={!!errors.email}
+                    helperText={errors.email ? errors.email.message : ''}
                     sx={{ marginBottom: '20px' }}
                 />
 
@@ -90,8 +94,8 @@ const SignUpForm = () => {
                         {...register('otp', {
                             required: 'Please enter OTP',
                             pattern: {
-                                value: /^\d{6}$/,
-                                message: 'OTP should be 6 digits',
+                                value: /^\d{4}$/,
+                                message: 'OTP should be 4 digits',
                             },
                         })}
                         variant="outlined"
