@@ -11,7 +11,6 @@ import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
-const pages = ['Rented Books','Purchased Books'];
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar({ scrollToSection2, scrollToSection3 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -115,11 +114,14 @@ export default function Navbar() {
             />
           </Search>
 
-          {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+          {/* {pages.map((page) => ( */}
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center" onClick={scrollToSection2}>Rented Books</Typography>
                 </MenuItem>
-              ))}
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center" onClick={scrollToSection3}>Purchased Books</Typography>
+                </MenuItem>
+              {/* ))} */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton

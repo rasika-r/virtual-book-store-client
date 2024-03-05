@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
+import '../css/pdfviewer.css'
 
 
 import pdf from './lung.pdf'
@@ -25,21 +26,26 @@ const PdfViewer = () => {
 		);
 
 	return (
-		<div>
-			<nav>
-				<button onClick={goToPrevPage}>Prev</button>
-				<button onClick={goToNextPage}>Next</button>
-				<p>
-					Page {pageNumber} of {numPages}
-				</p>
-			</nav>
+		<div className="pdf-view-wrapper">
+			<div className="pdf-container">
+				<div className="page-btn">
+						<div><button onClick={goToPrevPage}>Prev</button></div>
+						<div><p>
+							{/* patch req for no. of pages, payload: pageNumber */}
+							Page {pageNumber} of {numPages}
+						</p></div>
+						
+						<div><button onClick={goToNextPage}>Next</button></div>
+					</div>
 
-			<Document
-				file={pdf}
-				onLoadSuccess={onDocumentLoadSuccess}
-			>
-				<Page pageNumber={pageNumber} />
-			</Document>
+					<div className="doc-view">
+					<Document
+						file={pdf}
+						onLoadSuccess={onDocumentLoadSuccess}
+					>
+						<Page pageNumber={pageNumber} />
+					</Document></div>
+			</div>
 		</div>
 	);
 };

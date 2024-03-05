@@ -1,19 +1,19 @@
-.top {
+.cart-wrapper {
     display: flex;
     justify-content: center;
     padding: 20px; 
   }
   
-  .cart1 {
-    background-color: rgb(243, 245, 247);
-    padding: 10px;
+  .cart-card {
+    background-color: white;
+    cursor: pointer;
+    padding: .8rem;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 5px 10px, rgba(0, 0, 0, 0.23) 0px 3px 3px; /* Reduced box shadow */
   }
   
   .cart-image {
-    border-radius: 10px;
-    width: 200px; 
-    height: auto;  }
+    width: 210px; 
+    height: 200px;  }
   
   .name {
     font-size: 18px;
@@ -22,6 +22,10 @@
   .rating {
     margin-left: 50px; 
     font-size: 18px; 
+  }
+
+  .rating-star{
+    /* margin-top: 15px; */
   }
   
   .author {

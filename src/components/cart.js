@@ -1,17 +1,26 @@
-import React from 'react';
 import '../css/cart.css';
-import img from './book.jpg';
+import { useNavigate } from 'react-router-dom';
+import StarIcon from '@mui/icons-material/Star';
 
-const Cart = () => {
+const Cart = ({id, bookName, rating, author, img}) => {
+  const navigate = useNavigate();
+
+  const handleOpenDesc = () => {
+    navigate(`/bookdetails/${id}`);
+  }
+
+
   return (
-    <div className="top">
-      <div className="cart1">
+    <div className="cart-wrapper">
+      <div className="cart-card" onClick={handleOpenDesc}>
         <div className="left-content">
           <img src={img} alt="Book" className="cart-image" />
-          <div className="details">
-            <span className="name">Book Name</span>
-            <span className="rating">&#9733;&#9733;&#9733;&#9733;</span> {/* 4-star rating */}
-            <p className="author">Author</p>
+          <div className="card-details">
+            <span className="name">{bookName}</span>
+            <span className="rating"> {rating} 
+              <span className="rating-star"><StarIcon sx={{color:'#ffe234'}}/></span>  
+            </span> {/* 4-star rating */}
+            <p className="author">{author}</p>
           </div>
         </div>
       </div>
