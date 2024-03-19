@@ -1,5 +1,7 @@
 /* progress.css */
 .progress-cart {
+  display: flex;
+  justify-content: space-between;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -11,9 +13,16 @@
   
   .progress-cart p {
     margin-left: 0;
+    overflow:hidden;
+    white-space:nowrap;
+    display:inline-block;
+    text-overflow:ellipsis;
+    width:300px;
+    text-align: left;
   }
   
   .progress-cart .progress {
     margin-right: 0;
   }
   
+

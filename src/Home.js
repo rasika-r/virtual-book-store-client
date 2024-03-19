@@ -7,13 +7,15 @@ import axios from "axios";
 import {useState, useEffect, useRef} from 'react'
 // import PdfViewer from "./components/PdfViewer";
 import ProgressCart from "./components/progressCart";
+import ProgressList from "./components/progressList";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
     const [allBooks, setAllBooks] = useState([])
     const [rentedBooks, setRentedBooks] = useState([])
     const [purchasedBooks, setPurchasedBooks] = useState([])
 
-    
+    const navigate = useNavigate()
     const section2Ref = useRef(null);
     const section3Ref = useRef(null);
   
@@ -75,6 +77,8 @@ function Home() {
         setPurchasedBooks(result.data.res.bought);
     }
 
+    
+
       useEffect(() => {
         const token = localStorage.getItem("token")
         const user_id = localStorage.getItem("id")
@@ -92,20 +96,39 @@ function Home() {
                 <div className="all-books">
                     <h3>All Books</h3>
                     <Carousel breakPoints={breakPoints}>
-                        {allBooks.map(item => <Cart key={item.id} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.img}></Cart>)}
-                    </Carousel>
-                </div>
+                        {allBooks.map(item => <Cart key={item.book_id} flag={0} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.image} url={item.pdf}></Cart>)}
+                    </Carousel> 
+                    </div>
+                
 
                 <div className="rented-books" ref={section2Ref}>
+                <h3>Rented Books</h3>
+                {rentedBooks.length > 0 ?<Carousel breakPoints={breakPoints}>
+                        {rentedBooks.map(item => <Cart key={item.book_id} flag={1} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.image} url={item.pdf}></Cart>)}
+                    </Carousel>: <div className="empty-message">  You have not rented any books</div>}
+</div>
+                {/* <div className="rented-books" ref={section2Ref}>
                     <h3>Rented Books</h3>
-                    {rentedBooks.length > 0 ? <div className="empty-message">  You have not rented any books</div> : <ProgressCart/>}
-                </div>
+                    {rentedBooks.length > 0 ?  :  <div className="empty-message">  You have not rented any books</div>}
+                </div> */}
 
-                <div className="purchased-books" ref={section3Ref}>
+
+            <div className="purchased-books" ref={section3Ref}>
+            <h3>Purchased Books</h3>
+            {purchasedBooks.length > 0 ?<Carousel breakPoints={breakPoints}>
+                            {purchasedBooks.map(item => <Cart key={item.book_id} flag={1} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.image} url={item.pdf}></Cart>)}
+                        </Carousel> : <div className="empty-message">You have not purchased any books</div>}</div>
+
+                {/* <div className="purchased-books" ref={section3Ref}>
                     <h3>Purchased Books</h3>
                     { purchasedBooks.length > 0 ? '' : <div className="empty-message">You have not purchased any books</div>}
-                </div>
+                </div> */}
             </div>
+            <div className="progress-container">
+            <div className="progress-list">
+            <h3>Your Progress</h3>
+                <ProgressList/>
+                </div></div>
 
             {/* <Carousel breakPoints={breakPoints}>
                         {rentedBooks.map(item => <Cart key={item.id} id={item.book_id} bookName={item.book_name} rating={item.ratings} author={item.author_name} img={item.img}></Cart>)}
@@ -118,6 +141,7 @@ function Home() {
             {/* <PdfViewer/> */}
 
         </div>
+
     )
 }
 

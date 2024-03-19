@@ -2,8 +2,23 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Box, IconButton, Tooltip } from '@mui/material';
 import { AddCircleOutline, Edit, ExitToApp } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useNavigate, useHistory } from 'react-router-dom';
+import { replace } from 'stylis';
+
+
+
+
 
 const Header = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // Clear authentication state (e.g., remove tokens from localStorage or sessionStorage)
+        localStorage.removeItem('token');
+        localStorage.removeItem('id');
+        
+        navigate('/adminLogin',{replace :true});
+      };
     return (
         <div>
             <AppBar position="static" sx={{ mb: 2, backgroundImage: 'linear-gradient(to right, #211951, #00D59D)' }}>
@@ -26,13 +41,13 @@ const Header = () => {
                             </IconButton>
                         </Tooltip>
                     </Link>
-                    <Link to='/'>
+
                         <Tooltip title="Logout">
-                            <IconButton sx={{ color: '#fff' }}>
+                            <IconButton sx={{ color: '#fff' }} onClick={handleLogout}>
                                 <ExitToApp />
                             </IconButton>
                         </Tooltip>
-                    </Link>
+
                 </Toolbar>
             </AppBar>
         </div>

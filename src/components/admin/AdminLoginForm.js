@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Typography, TextField, Button, Box } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
-const LoginForm = () => {
+const AdminLoginForm = () => {
     const [showOTPField, setShowOTPField] = useState(false);
     const [buttonLabel, setButtonLabel] = useState('Get OTP');
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -16,13 +16,19 @@ const LoginForm = () => {
     const onSubmit = async (data) => {
         console.log(data); 
         try{
-        const response = await axios.post('http://localhost:8000/otp/verify', {email: data.email, otp: data.otp})
+        const response = await axios.post('http://localhost:8000/otp/verify', {email: data.email, otp: data.otp , is_admin:true});
+        console.log(response.data);
         const user_id = response.data.res.id;
         const token = response.data.res.token;
-        console.log(user_id, "logged");
+        const adminFlag = response.data.res.is_admin;
+        console.log(adminFlag);
+        
         localStorage.setItem('token', token);
         localStorage.setItem('id', user_id);
-        navigate('/home');
+        if(adminFlag === true){navigate('/admin');}
+        else{
+            alert("get out");
+        }
         
       } catch (error) {
         console.error('Login failed:', error);
@@ -33,7 +39,7 @@ const LoginForm = () => {
         const username = nameRef.current.value;
         const email = emailRef.current.value;
 
-        axios.post('http://localhost:8000/auth/login', { user_name: username, email: email })
+        axios.post('http://localhost:8000/auth/login', { user_name: username, email: email }).then(res=>console.log(res));
         setShowOTPField(true);
         setButtonLabel('Verify OTP');
     };
@@ -59,7 +65,7 @@ const LoginForm = () => {
                     marginBottom: '30px',
                 }}
             >
-                Log in
+                Admin : Log in
             </Typography>
 
             <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
@@ -111,24 +117,6 @@ const LoginForm = () => {
                     />
                 )}
 
-                <Typography
-                    variant="body1"
-                    sx={{
-                        fontFamily: 'Poppins',
-                        fontSize: '18px',
-                        fontWeight: 'bold',
-                        marginBottom: '30px',
-                        color: '#000000',
-                        ml: 13
-                    }}
-                >
-                    Don't have an account?{' '}
-                    <Link to="/signup" underline="none" sx={{ color: '#7C5DFA', fontWeight: 'bold', textAlign: 'center' ,}} style={{ textDecoration: 'none' }}>
-                        Sign Up
-                    </Link>
-
-                </Typography>
-
                 <Button
                     type="button"
                     variant="contained"
@@ -151,4 +139,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default AdminLoginForm;

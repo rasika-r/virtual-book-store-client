@@ -19,7 +19,7 @@ const Main = () => {
             const rentedBooks = transactions.filter(transaction => transaction.purchase_type === 'rented')
             setRentCount(rentedBooks.length);
 
-            const purchasedBooks = transactions.filter(transaction => transaction.purchase_type === 'purchase')
+            const purchasedBooks = transactions.filter(transaction => transaction.purchase_type === 'bought')
             setPurchaseCount(purchasedBooks.length);
         })
     },[bookCount,rentCount,purchaseCount])
@@ -43,7 +43,7 @@ const Main = () => {
                             <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
                                 <Group fontSize='large' />
                                 <Typography variant="h6" fontFamily="Poppins">Total Users</Typography>
-                                <Typography variant="h4" fontFamily="Poppins">0</Typography>
+                                <Typography variant="h4" fontFamily="Poppins">5</Typography>
                             </Box>
                         </Paper>
                     </Grid>

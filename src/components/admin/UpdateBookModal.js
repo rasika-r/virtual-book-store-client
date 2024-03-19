@@ -3,7 +3,7 @@ import { Modal, Box, Typography, Button, Grid, TextField } from '@mui/material';
 import axios from 'axios';
 
 
-const UpdateBookModal = ({ open, handleClose, selectedBook }) => {
+const UpdateBookModal = ({ updateBook, open, handleClose, selectedBook }) => {
     const [formData, setFormData] = useState(selectedBook || {});
 
     // Update formData with selectedBook data when it changes
@@ -17,12 +17,21 @@ const UpdateBookModal = ({ open, handleClose, selectedBook }) => {
     };
 
     const handleSubmit = () => {
+        
         // Extract book_id from selectedBook
         const { book_id } = selectedBook;
+        console.log(formData)
+        updateBook((data)=>{
+            return {
+            ...data,
+            bookk_name: data.book_name
+            }
+        })
         // Send PATCH request with updated data
         axios.patch(`http://localhost:8000/admin/books/${book_id}`, formData)
             .then((response) => {
                 console.log('Book updated successfully:', response.data);
+                console.log(formData)
                 handleClose(); // Close the modal after successful update
             })
             .catch((error) => {
@@ -55,10 +64,10 @@ const UpdateBookModal = ({ open, handleClose, selectedBook }) => {
                         <TextField name="author_name" label="Author Name" variant="outlined" fullWidth value={formData.author_name} onChange={handleInputChange} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField name="img" label="Image URL" variant="outlined" fullWidth value={formData.img} onChange={handleInputChange} />
+                        <TextField name="img" label="Image URL" variant="outlined" fullWidth value={formData.image} onChange={handleInputChange} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField name="pdf_url" label="PDF URL" variant="outlined" fullWidth value={formData.pdf_url} onChange={handleInputChange} />
+                        <TextField name="pdf_url" label="PDF URL" variant="outlined" fullWidth value={formData.pdf} onChange={handleInputChange} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField name="genre" label="Genre" variant="outlined" fullWidth value={formData.genre} onChange={handleInputChange} />

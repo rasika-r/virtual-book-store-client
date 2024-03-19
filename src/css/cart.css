@@ -32,3 +32,11 @@
     font-size: 14px;
   }
   
+
+  .card-details .name{
+    overflow:hidden;
+    white-space:nowrap;
+    display:inline-block;
+    text-overflow:ellipsis;
+    width:100px
+  }

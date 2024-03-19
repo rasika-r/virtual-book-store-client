@@ -7,6 +7,8 @@ import axios from 'axios';
 
 
 const UpdateBook = () => {
+
+    
     const [bookdata, getBookData] = useState([]);
     const [open, setOpen] = useState(false);
     const [selectedBookId, setSelectedBookId] = useState(null);
@@ -32,21 +34,36 @@ const UpdateBook = () => {
 
 
 
-    useEffect (() =>{
+    useEffect(() => {
         axios.get('http://localhost:8000/books').then(response => {
             getBookData(response.data.res)
         }).catch(function (error) {
             console.log(error);
         })
-    },[bookdata])
+    },[])
 
     const filteredBooks = bookdata.filter(book =>
         book.book_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         book.author_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    function updateBook(data){
+        console.log(data);
+        const newdata = bookdata.map((dataa)=>{
+            if(dataa.id == data.id){
+                return {
+                    ...dataa,
+                    title: data.book_name,
+                }
+            }
+            else return dataa;
+        })
+        console.log(newdata)
+        getBookData([...newdata])
+    }
+
     return (
-        <div>
+        <div style={{overflowX:'hidden'}}>
             <Header />
             <TextField
                 value={searchQuery}
@@ -63,31 +80,30 @@ const UpdateBook = () => {
                 sx={{ mb: '1rem', ml: 2, mt: 2, width: '30%', backgroundColor: '#fff' }}
             />
             <Grid container spacing={1} sx={{ display: 'flex', flexDirection: 'column' }}>
-                <UpdateBookModal open={open} handleClose={handleClose} selectedBook={selectedBook} />
+                <UpdateBookModal updateBook={updateBook} open={open} handleClose={handleClose} selectedBook={selectedBook} />
                 {filteredBooks.map((book, index) => (
                     <Grid key={index}>
                         <Card sx={{ boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)', width: '100vw' }}>
-                                
-                                    <CardContent sx={{ display: 'flex', justifyContent: 'space-evenly', ':hover': { backgroundColor: '#F0F3FF' } }}>
-                            
+
+                            <CardContent sx={{ display: 'flex', justifyContent: 'space-evenly', ':hover': { backgroundColor: '#F0F3FF' } }}>
                                 <Grid md={3}>
-                                    <Box sx={{ width: '50px', height: '50px', overflow: 'hidden', borderRadius: '5px', boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)', backgroundImage: `url(${book.img})`, backgroundSize: 'cover' }}>
+                                    <Box sx={{ width: '50px',ml:11, height: '50px', overflow: 'hidden', borderRadius: '5px', boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)', backgroundImage: `url(${book.image})`, backgroundSize: 'cover' }}>
                                     </Box>
                                 </Grid>
                                 <Grid md={3}>
 
-                                <Box sx={{display:'flex', flexDirection:'column'}}>
-                                    <Typography variant="body2" color="textSecondary" fontFamily='Poppins' component="div">
-                                        Book Name
-                                    </Typography>
-                                    <Typography variant="" component="div" mt={1}>
-                                        {book.book_name}
-                                    </Typography>
-                                </Box>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <Typography variant="body2" color="textSecondary" fontFamily='Poppins' component="div">
+                                            Book Name
+                                        </Typography>
+                                        <Typography variant="" component="div" mt={1}>
+                                            {book.book_name}
+                                        </Typography>
+                                    </Box>
                                 </Grid>
                                 <Grid md={3}>
 
-                                    <Box sx={{display:'flex', flexDirection:'column'}}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography variant="body2" color="textSecondary" fontFamily='Poppins' component="div">
                                             Author Name
                                         </Typography>

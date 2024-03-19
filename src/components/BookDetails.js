@@ -25,6 +25,34 @@ export default function BookDetails() {
       axios.get(`http://localhost:8000/books/${id}`).then(result => setBook(result.data.res))
 
     }, [])
+
+    const handleRentTransaction = (book_id) => {
+        const user_id = localStorage.getItem("id")
+        const purchase_type = "rented";
+        try{
+        axios.post('http://localhost:8000/transactions', {user_id: user_id, book_id: book_id, purchase_type: purchase_type}).then(
+            res=> alert(res.data.message)    
+            )
+            
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
+    const handleBuyTransaction = (book_id) => {
+        const user_id = localStorage.getItem("id")
+        console.log(book_id, user_id);
+        const purchase_type = "bought";
+        try{
+        axios.post('http://localhost:8000/transactions', {user_id: user_id, book_id: book_id, purchase_type: purchase_type}).then(res=> 
+        alert(res.data.message)  )
+            
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
     
 
   return (
@@ -32,7 +60,7 @@ export default function BookDetails() {
         <div className="navbar"><Navbar/></div>
         <div className="details-wrapper">
             <div className="left-cover">
-                <img src={book.img}/>
+                <img src={book.image}/>
             </div>
                 <div className="right-content">
                     <h1 className="book-name">{book.book_name} - {book.genre}</h1>
@@ -46,8 +74,8 @@ export default function BookDetails() {
                     <div className="book-desc">{book.book_desc}</div>
                     {/* <div className="book-desc">congue nisi vitae suscipit tellus mauris a diam maecenas sed enim ut sem viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt dui ut ornare lectus sit amet est placerat in egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam ut porttitor leo a diam sollicitudin tempor id eu nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor nec feugiat nisl pretium fusce id  </div> */}
                     <div className="btn-wrapper">
-                        <div className="rent-btn book-btn"> <button>Rent &nbsp;&nbsp; ${book.rent_amount}</button> </div>
-                        <div className="buy-btn book-btn"> <button>Buy &nbsp;&nbsp; ${book.purchase_amount}</button> </div>
+                        <div className="rent-btn book-btn"> <button onClick={()=>handleRentTransaction(book.book_id)}>Rent &nbsp;&nbsp; ${book.rent_amount}</button> </div>
+                        <div className="buy-btn book-btn"> <button onClick={()=>handleBuyTransaction(book.book_id)}>Buy &nbsp;&nbsp; ${book.purchase_amount}</button> </div>
                     </div>
                 </div>
         </div>

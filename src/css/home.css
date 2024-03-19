@@ -1,6 +1,6 @@
 .home{
     background-color: #F0F3FF;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 .home-wrapper{
@@ -14,4 +14,28 @@
     background-color: white;
     margin: 1rem auto;
     text-align: center;
+}
+
+
+.progress-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.progress-list{
+    width: 1000px;
+    margin: auto;
+    padding: 2rem;
+    text-align: center;
+
+}
+
+
+.progress-cart{
+    background-color: white;
+    flex: 1;
+    margin: 1rem auto;
+
 }

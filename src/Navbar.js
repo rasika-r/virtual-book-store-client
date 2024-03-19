@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -52,7 +53,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
+
 export default function Navbar({ scrollToSection2, scrollToSection3 }) {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -64,12 +68,20 @@ export default function Navbar({ scrollToSection2, scrollToSection3 }) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+ 
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  const handleLogout = () => {
+    // Clear authentication state (e.g., remove tokens from localStorage or sessionStorage)
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+
+    navigate('/',{replace :true});
+  };
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
